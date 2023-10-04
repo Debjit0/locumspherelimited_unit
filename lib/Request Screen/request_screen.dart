@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:locumspherelimited_unit/Firebase%20Services/firebase_services.dart';
 import 'package:locumspherelimited_unit/Request%20Screen/components/drop_down_menu.dart';
 import 'package:locumspherelimited_unit/Request%20Screen/components/text_form_field.dart';
@@ -17,7 +16,6 @@ class _RequestScreenState extends State<RequestScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController staffNoMale = TextEditingController();
   TextEditingController staffNoFemale = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   String gender = 'Male';
