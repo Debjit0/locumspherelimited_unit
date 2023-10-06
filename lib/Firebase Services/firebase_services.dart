@@ -8,13 +8,14 @@ class Services {
 
   Future addRequestDetails(String staffNoMale, String staffNoFemale,
       String shiftPreference, String date) async {
-
     String unitFromSF = await getUnitStatus();
-    DocumentSnapshot ds =
-await FirebaseFirestore.instance.collection('Units').doc(unitFromSF).get();
+    DocumentSnapshot ds = await FirebaseFirestore.instance
+        .collection('Units')
+        .doc(unitFromSF)
+        .get();
 
-String unitName = ds['unitname'];
-    
+    String unitName = ds['unitname'];
+
     if (unitFromSF != "null" || unitFromSF != "") {
       final data = {
         'staffmale': staffNoMale,
@@ -23,7 +24,7 @@ String unitName = ds['unitname'];
         'shiftpreference': shiftPreference,
         'unitid': unitFromSF,
         'isresponded': false,
-        'unitname':unitName,
+        'unitname': unitName,
       };
       CollectionReference userCollection = _firestore.collection("Requests");
 
