@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:locumspherelimited_unit/Home%20Screen/home_screen.dart';
+
+import 'package:locumspherelimited_unit/Navbar/navbar.dart';
 import 'package:locumspherelimited_unit/Sign%20in/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAll(SignIn());
       } else {
         print(unit);
-        Get.offAll(HomeScreen(title: unit,));
+        Get.offAll(NavBar());
       }
     });
     return Scaffold(

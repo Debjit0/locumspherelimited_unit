@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Services {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  List emptyList = [];
   Future addRequestDetails(String staffNoMale, String staffNoFemale,
       String shiftPreference, String date) async {
     String unitFromSF = await getUnitStatus();
@@ -25,6 +25,7 @@ class Services {
         'unitid': unitFromSF,
         'isresponded': false,
         'unitname': unitName,
+        'assignedemployees': emptyList,
       };
       CollectionReference userCollection = _firestore.collection("Requests");
 

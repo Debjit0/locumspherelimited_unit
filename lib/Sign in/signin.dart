@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:locumspherelimited_unit/Home%20Screen/home_screen.dart';
+
+import 'package:locumspherelimited_unit/Navbar/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
@@ -66,7 +67,7 @@ class _SignInState extends State<SignIn> {
             FilledButton.tonal(
                 onPressed: () {
                   setUnitInSharedPreference();
-                  Get.offAll(HomeScreen(title: selectedUnitValue,));
+                  Get.offAll(NavBar());
                 },
                 child: Text("Sign in"))
           ],
