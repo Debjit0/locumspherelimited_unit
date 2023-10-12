@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:intl/intl.dart';
 import 'package:locumspherelimited_unit/Models/request_model.dart';
 
@@ -16,7 +18,7 @@ class RequestTile extends StatefulWidget {
 
 class _RequestTileState extends State<RequestTile> {
   TextEditingController controller = TextEditingController();
-
+  var now = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +46,35 @@ class _RequestTileState extends State<RequestTile> {
           ),
           Text("Requested Males : ${widget.request.requestedMale}"),
           Text("Requested Females : ${widget.request.requestedFemale}"),
+          ElevatedButton(
+              onPressed: () {
+                Get.to(UpdateAttendance(request: widget.request));
+              },
+              child: Text("Update Attendance")),
+          ElevatedButton(onPressed: () {}, child: Text("Complaints"))
         ],
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class UpdateAttendance extends StatefulWidget {
+  UpdateAttendance({super.key, required this.request});
+  RequestModel request;
+  @override
+  State<UpdateAttendance> createState() => _UpdateAttendanceState();
+}
+
+class _UpdateAttendanceState extends State<UpdateAttendance> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Update Attendance"),
+      ),
+      body: Column(
+        children: [],
       ),
     );
   }
