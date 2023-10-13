@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:locumspherelimited_unit/Firebase%20Services/firebase_services.dart';
+import 'package:locumspherelimited_unit/Home%20Screen/home_screen.dart';
+import 'package:locumspherelimited_unit/Navbar/navbar.dart';
 import 'package:locumspherelimited_unit/Request%20Screen/components/drop_down_menu.dart';
 import 'package:locumspherelimited_unit/Request%20Screen/components/text_form_field.dart';
 
@@ -94,11 +97,18 @@ class _RequestScreenState extends State<RequestScreen> {
                           height: 50,
                           child: FilledButton.tonal(
                             onPressed: () async {
-                              Services().addRequestDetails(
-                                  staffNoMale.text,
-                                  staffNoFemale.text,
-                                  shiftPreference,
-                                  selectedDate.toString());
+                              setState(() {
+                                isLoading = true;
+                              });
+                              Services()
+                                  .addRequestDetails(
+                                      staffNoMale.text,
+                                      staffNoFemale.text,
+                                      shiftPreference,
+                                      selectedDate.toString())
+                                  .then((value) {
+                                Get.off(NavBar());
+                              });
                             },
                             child: isLoading == false
                                 ? Row(
