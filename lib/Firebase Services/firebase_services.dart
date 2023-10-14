@@ -17,10 +17,11 @@ class Services {
     String unitName = ds['unitname'];
 
     if (unitFromSF != "null" || unitFromSF != "") {
+      print(DateTime(DateTime.parse(date).year, DateTime.parse(date).month, DateTime.parse(date).day));
       final data = {
         'staffmale': staffNoMale,
         'stafffemale': staffNoFemale,
-        'date': date,
+        'date': DateTime(DateTime.parse(date).year, DateTime.parse(date).month, DateTime.parse(date).day).toString(),
         'shiftpreference': shiftPreference,
         'unitid': unitFromSF,
         'isresponded': false,
