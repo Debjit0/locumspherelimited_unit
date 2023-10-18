@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:locumspherelimited_unit/Chat%20Screen/all_chats.dart';
 import 'package:locumspherelimited_unit/Home%20Screen/home_screen.dart';
 import 'package:locumspherelimited_unit/Navbar/page2.dart';
 import 'package:locumspherelimited_unit/Request%20History/request_history_screen.dart';
@@ -21,6 +22,7 @@ class _NavBarState extends State<NavBar> {
           HomeScreen(),
           Page2(),
           RequestHistory(),
+          AllChat()
         ][selectedPageIndex],
         bottomNavigationBar: NavigationBar(
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
@@ -45,6 +47,11 @@ class _NavBarState extends State<NavBar> {
               selectedIcon: Icon(Icons.history_rounded),
               icon: Icon(Icons.history_outlined),
               label: 'History',
+            ),
+            NavigationDestination(
+              selectedIcon: Icon(Icons.chat),
+              icon: Icon(Icons.chat_outlined),
+              label: 'Chat',
             ),
           ],
         ),

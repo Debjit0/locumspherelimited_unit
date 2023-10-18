@@ -42,4 +42,28 @@ class Services {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString("unit").toString();
   }
+
+
+  Future sendMessage(Map<String, dynamic> chatMessageData, String name) async {
+    /*await FirebaseFirestore.instance
+        .collection("Chats")
+        .doc("Admin_${FirebaseAuth.instance.currentUser!.uid}")
+        .update({
+      "participants": [uid, "Admin"]
+    });*/
+    await FirebaseFirestore.instance
+        .collection("Chats")
+        .doc("Admin_${name}")
+        .collection("Messages")
+        .add(chatMessageData);
+    await FirebaseFirestore.instance
+        .collection("Chats")
+        .doc("Admin_${name}")
+        .set({
+      "recentmessage": chatMessageData['message'],
+      "recentmessagesender": chatMessageData['sender'],
+      "recentmessagetime": chatMessageData['time'].toString(),
+      "participants": ["Admin", name]
+    });
+  }
 }
