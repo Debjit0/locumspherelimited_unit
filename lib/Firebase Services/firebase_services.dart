@@ -9,23 +9,26 @@ class Services {
   Future addRequestDetails(String staffNoMale, String staffNoFemale,
       String shiftPreference, String date) async {
     String unitFromSF = await getUnitStatus();
-    DocumentSnapshot ds = await FirebaseFirestore.instance
+    var ds = await FirebaseFirestore.instance
         .collection('Units')
-        .doc(unitFromSF)
-        .get();
+        .doc(unitFromSF.split("_")[1])
+        .snapshots();
 
-    String unitName = ds['unitname'];
+    //String unitName = ds;
 
     if (unitFromSF != "null" || unitFromSF != "") {
-      print(DateTime(DateTime.parse(date).year, DateTime.parse(date).month, DateTime.parse(date).day));
+      print(DateTime(DateTime.parse(date).year, DateTime.parse(date).month,
+          DateTime.parse(date).day));
       final data = {
         'staffmale': staffNoMale,
         'stafffemale': staffNoFemale,
-        'date': DateTime(DateTime.parse(date).year, DateTime.parse(date).month, DateTime.parse(date).day).toString(),
+        'date': DateTime(DateTime.parse(date).year, DateTime.parse(date).month,
+                DateTime.parse(date).day)
+            .toString(),
         'shiftpreference': shiftPreference,
-        'unitid': unitFromSF,
+        'unitid': unitFromSF.split("_")[1],
         'isresponded': false,
-        'unitname': unitName,
+        'unitname': unitFromSF.split("_")[0],
         'assignedemployees': emptyList,
       };
       CollectionReference userCollection = _firestore.collection("Requests");
@@ -43,27 +46,28 @@ class Services {
     return prefs.getString("unit").toString();
   }
 
-
-  Future sendMessage(Map<String, dynamic> chatMessageData, String name) async {
+  Future sendMessage(Map<String, dynamic> chatMessageData, String uid,
+      String name, String unitName) async {
     /*await FirebaseFirestore.instance
         .collection("Chats")
         .doc("Admin_${FirebaseAuth.instance.currentUser!.uid}")
         .update({
       "participants": [uid, "Admin"]
     });*/
+    print("${unitName}_${uid}");
     await FirebaseFirestore.instance
         .collection("Chats")
-        .doc("Admin_${name}")
+        .doc("${unitName}_${uid}")
         .collection("Messages")
         .add(chatMessageData);
     await FirebaseFirestore.instance
         .collection("Chats")
-        .doc("Admin_${name}")
+        .doc("${unitName}_${uid}")
         .set({
       "recentmessage": chatMessageData['message'],
       "recentmessagesender": chatMessageData['sender'],
       "recentmessagetime": chatMessageData['time'].toString(),
-      "participants": ["Admin", name]
+      "participants": [unitName, "${name}_$uid"]
     });
   }
 }

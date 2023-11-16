@@ -15,6 +15,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   String selectedUnitValue = "Select Unit";
+  String selectedUnitId = "";
   CollectionReference unitCollection =
       FirebaseFirestore.instance.collection('Units');
   @override
@@ -51,8 +52,10 @@ class _SignInState extends State<SignIn> {
                       value: 'Select Unit', child: Text("Select Unit")));
 
                   for (var unit in units) {
+                    print("Unit name and id${unit['unitname']}_${unit.id}");
                     unitItems.add(DropdownMenuItem(
-                        value: unit.id, child: Text(unit['unitname'])));
+                        value: "${unit['unitname']}_${unit.id}",
+                        child: Text(unit['unitname'])));
                   }
                   return DropdownButton(
                       value: selectedUnitValue,
@@ -60,14 +63,18 @@ class _SignInState extends State<SignIn> {
                       onChanged: (unitValue) {
                         setState(() {
                           selectedUnitValue = unitValue;
-                        });
+                          //selectedUnitId = snapshot.data!.docs[unitItems.indexOf()];
+                      });
                         //print(unitValue);
                       });
                 }),
             FilledButton.tonal(
                 onPressed: () {
-                  setUnitInSharedPreference();
-                  Get.offAll(NavBar());
+                  setUnitNameInSharedPreference().then((value) {
+                    if (value == true) {
+                      Get.offAll(NavBar());
+                    }
+                  });
                 },
                 child: Text("Sign in"))
           ],
@@ -76,13 +83,16 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  setUnitInSharedPreference() async {
+  Future<bool> setUnitNameInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(selectedUnitValue);
     if (selectedUnitValue == "" || selectedUnitValue == "Select Unit") {
       Get.snackbar("Error", "please select an unit");
+      return false;
     } else {
+      print("Selected unit val = " + selectedUnitValue);
       prefs.setString('unit', selectedUnitValue);
+      return true;
     }
   }
 }

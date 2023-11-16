@@ -63,7 +63,7 @@ class _RequestHistoryState extends State<RequestHistory> {
                   child: RequestTile(
                     request: RequestModel(
                         date:
-                            DateTime.parse(snapshot.data!.docs[index]['date']),
+                            DateTime.parse(snapshot.data!.docs[index]['date'].toString()),
                         unitName: snapshot.data!.docs[index]['unitname'],
                         unitLocation: snapshot.data!.docs[index]['date'],
                         isResponded: snapshot.data!.docs[index]['isresponded'],

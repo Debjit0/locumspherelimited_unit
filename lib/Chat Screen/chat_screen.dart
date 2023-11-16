@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:locumspherelimited_unit/Chat%20Screen/components/message_tile.dart';
 import 'package:locumspherelimited_unit/Firebase%20Services/firebase_services.dart';
 
-
 // ignore: must_be_immutable
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key, required this.name});
+  ChatScreen(
+      {super.key,
+      required this.name,
+      required this.uid,
+      required this.unitName});
   String name;
+  String uid;
+  String unitName;
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -19,19 +24,20 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+
     getChat();
+    super.initState();
   }
 
   sendMessage() {
     if (messageController.text.isNotEmpty) {
       Map<String, dynamic> chatMessageMap = {
         "message": messageController.text,
-        "sender": "Admin",
+        "sender": widget.unitName,
         "time": DateTime.now().millisecondsSinceEpoch,
       };
 
-      Services().sendMessage(chatMessageMap, widget.name);
+      Services().sendMessage(chatMessageMap, widget.uid, widget.name, widget.unitName);
       setState(() {
         messageController.clear();
       });
@@ -39,9 +45,10 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   getChat() {
+    print("wooo ${widget.unitName}_${widget.uid}");
     chats = FirebaseFirestore.instance
         .collection("Chats")
-        .doc("One_${widget.name}")
+        .doc("${widget.unitName}_${widget.uid}")
         .collection("Messages")
         .orderBy('time')
         .snapshots();
@@ -74,9 +81,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         border: InputBorder.none),
                   ),
                 ),
-                /*SizedBox(
+                SizedBox(
                   width: 12,
-                ),*/
+                ),
                 GestureDetector(
                   onTap: () {
                     sendMessage();
@@ -93,7 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.white,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -125,9 +132,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 itemBuilder: (context, index) {
                   return MessageTile(
                       message: snapshot.data.docs[index]['message'],
-                      sender: 'You',
-                      sentByMe: 
-                          snapshot.data.docs[index]['sender']=="Admin");
+                      sender: widget.unitName,
+                      sentByMe: snapshot.data.docs[index]['sender'] == widget.unitName);
                 },
               )
             : Container(child: Text("No"));
